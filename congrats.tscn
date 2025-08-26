@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://7ercywnkun17"]
+
+[ext_resource type="Texture2D" uid="uid://wkqikfbxi5ao" path="res://insert-cool-name-here/Screenshot 2025-08-25 214753.png" id="1_ctxaw"]
+[ext_resource type="AudioStream" uid="uid://c0aleyytdei7j" path="res://insert-cool-name-here/Congrats - Tyler, the Creator.mp3" id="2_do0ef"]
+[ext_resource type="FontFile" uid="uid://dcs2le080fi8l" path="res://insert-cool-name-here/Daydream DEMO.otf" id="3_do0ef"]
+[ext_resource type="Script" uid="uid://cj32hlh5n7cep" path="res://insert-cool-name-here/restart.gd" id="4_kveln"]
+[ext_resource type="Script" uid="uid://b07l5uqhtkkke" path="res://insert-cool-name-here/exit_button_end.gd" id="5_i406r"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kveln"]
+texture = ExtResource("1_ctxaw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kveln"]
+bg_color = Color(0.566601, 0.621063, 0.532764, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="Congrats" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 649.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_kveln")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_do0ef")
+autoplay = true
+playback_type = 1
+parameters/looping = true
+
+[node name="Start Button" type="Button" parent="."]
+offset_left = 353.0
+offset_top = 446.0
+offset_right = 769.0
+offset_bottom = 511.0
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_do0ef")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_kveln")
+text = "Restart Game"
+script = ExtResource("4_kveln")
+
+[node name="Exit Button" type="Button" parent="."]
+offset_left = 479.0
+offset_top = 563.0
+offset_right = 637.0
+offset_bottom = 628.0
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_do0ef")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_kveln")
+text = "Exit"
+script = ExtResource("5_i406r")
+
+[connection signal="pressed" from="Start Button" to="Start Button" method="_on_pressed"]
+[connection signal="pressed" from="Exit Button" to="Exit Button" method="_on_pressed"]

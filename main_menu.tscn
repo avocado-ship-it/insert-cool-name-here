@@ -1,11 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dolm4fe3biyrf"]
+[gd_scene load_steps=13 format=3 uid="uid://dolm4fe3biyrf"]
 
 [ext_resource type="Texture2D" uid="uid://p674flliyb7c" path="res://insert-cool-name-here/Screenshot 2025-08-25 180347.png" id="1_iotjm"]
 [ext_resource type="Script" uid="uid://dfpmirwknnuk8" path="res://insert-cool-name-here/main_menu.gd" id="1_kh4tn"]
 [ext_resource type="FontFile" uid="uid://dcs2le080fi8l" path="res://insert-cool-name-here/Daydream DEMO.otf" id="1_prpi0"]
 [ext_resource type="FontFile" uid="uid://bfq3mdc5jcmx0" path="res://insert-cool-name-here/Lilly__.ttf" id="3_kh4tn"]
 [ext_resource type="AudioStream" uid="uid://dsk0ckdrit4ak" path="res://insert-cool-name-here/Ran Away (feat. Ino Riel & Heather).mp3" id="5_ks3qy"]
-[ext_resource type="Script" uid="uid://d3fyq4q8mpddv" path="res://insert-cool-name-here/audio_control.gd" id="5_uirld"]
+[ext_resource type="Script" uid="uid://ccu4nylknp6ug" path="res://insert-cool-name-here/fullscreen_toggle.gd" id="6_bkfcj"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ks3qy"]
 texture = ExtResource("1_iotjm")
@@ -28,6 +28,25 @@ thickness = 6
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_bkfcj"]
 color = Color(0.356863, 0.490196, 0.458824, 1)
 thickness = 6
+
+[sub_resource type="GDScript" id="GDScript_uirld"]
+script/source = "extends HSlider
+@export var audio_bus_name: String
+var audio_bus_id
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	audio_bus_id = AudioServer.get_bus_index(audio_bus_name)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(audio_bus_id, value)
+"
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -69,14 +88,6 @@ theme_override_fonts/font = ExtResource("1_prpi0")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_ryrh1")
 text = "Start Game"
-
-[node name="Options Button" type="Button" parent="main bussy"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("1_prpi0")
-theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxFlat_ryrh1")
-text = "Options"
 
 [node name="Exit Button" type="Button" parent="main bussy"]
 layout_mode = 2
@@ -135,6 +146,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Back" type="Button" parent="opussy panel"]
+layout_mode = 0
 offset_left = 255.0
 offset_top = 341.0
 offset_right = 413.0
@@ -148,34 +160,44 @@ text = "Back
 
 [node name="Audio Control" type="HSlider" parent="opussy panel"]
 layout_mode = 0
-offset_left = 25.0
+offset_left = 263.0
 offset_top = 93.0
-offset_right = 412.0
+offset_right = 650.0
 offset_bottom = 126.0
 theme_override_styles/slider = SubResource("StyleBoxLine_ks3qy")
 theme_override_styles/grabber_area = SubResource("StyleBoxLine_uirld")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_bkfcj")
 min_value = -81.0
 max_value = 0.0
-script = ExtResource("5_uirld")
-audio_bus_name = "Master"
+script = SubResource("GDScript_uirld")
 
 [node name="Label2" type="Label" parent="opussy panel"]
-offset_left = 259.0
-offset_top = 81.0
-offset_right = 790.0
-offset_bottom = 137.0
+layout_mode = 0
+offset_left = -142.0
+offset_top = 79.0
+offset_right = 389.0
+offset_bottom = 135.0
 theme_override_font_sizes/font_size = 32
 text = "volume"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Fullscreen Toggle" type="CheckButton" parent="opussy panel"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 160.0
+offset_right = 612.0
+offset_bottom = 195.0
+theme_override_font_sizes/font_size = 32
+text = "Fullscreen"
+script = ExtResource("6_bkfcj")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_ks3qy")
 autoplay = true
 
 [connection signal="pressed" from="main bussy/Start Button" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="main bussy/Options Button" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="main bussy/Exit Button" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="opussy panel/Back" to="." method="_on_back_options_pressed"]
 [connection signal="value_changed" from="opussy panel/Audio Control" to="opussy panel/Audio Control" method="_on_value_changed"]
+[connection signal="toggled" from="opussy panel/Fullscreen Toggle" to="opussy panel/Fullscreen Toggle" method="_on_toggled"]

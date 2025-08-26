@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c0aleyytdei7j"
+path="res://.godot/imported/Congrats - Tyler, the Creator.mp3-881a71cb2535c098e59674d5f2ffa13d.mp3str"
+
+[deps]
+
+source_file="res://insert-cool-name-here/Congrats - Tyler, the Creator.mp3"
+dest_files=["res://.godot/imported/Congrats - Tyler, the Creator.mp3-881a71cb2535c098e59674d5f2ffa13d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
